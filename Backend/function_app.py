@@ -544,3 +544,39 @@ def DeleteObjeto(req: func.HttpRequest) -> func.HttpResponse:
     
     except Exception as e:
         return func.HttpResponse(f"Error al intentar eliminar el ítem: {str(e)}", status_code=500)
+
+
+@app.route(route="search-business-name", methods=["GET"])
+def search_business_name(req: func.HttpRequest) -> func.HttpResponse:
+    query_search = req.params.get('querySearch')
+    logging.warning(f"query_search: {query_search}")
+    if not query_search:
+        return func.HttpResponse("El parámetro 'querySearch' es obligatorio.", status_code=400)
+    
+    try:
+        conn = pyodbc.connect(f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}")
+        cursor = conn.cursor()
+
+        query = f"SELECT * FROM [dbo].[dataset_ventas_agrupado] WHERE Negocio LIKE '%{query_search}%';"
+
+        logging.warning(f"QUERY: {query}")
+        cursor.execute(query)
+        rows = cursor.fetchall() 
+
+        logging.warning(f"rows: {rows}")
+        results = []
+        for row in rows:
+            results.append({
+                "codigoMostrador": row.Codigo_Mostrador,
+                "razonSocial": row.Razon_Social,
+                "negocio": row.Negocio
+            })
+            
+        cursor.close()
+        conn.close()
+        
+        return func.HttpResponse(json.dumps(results), mimetype="application/json",status_code=200)
+    
+    except Exception as e:
+        logging.exception(f"ERROR: {str(e)}")
+        return func.HttpResponse(f"Error al intentar eliminar el ítem: {str(e)}", status_code=500)
