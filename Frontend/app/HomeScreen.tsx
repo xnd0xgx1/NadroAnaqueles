@@ -46,20 +46,29 @@ const HistoryItem = ({
   Resultados: any;
   Status: any;
 }) => {
-  const timeZone = "America/Mexico_City";
-  const localTime = "es-MX";
+  const timeZoneServer = "America/Bogota"; // GMT-5 (Ejemplo)
+  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Detecta la zona horaria del cliente
+  const localTime = navigator.language || "es-MX"; // Idioma del cliente
+
+  const date = new Date(Fecha + " GMT-5"); // Asegura que se interpreta como GMT-5
+
+  const day = date.getUTCDate();
+  const month = date.toLocaleString(localTime, {
+    timeZone: localTimeZone,
+    month: "short",
+  }).toUpperCase();
+
+  const hour = date.toLocaleTimeString(localTime, {
+    timeZone: localTimeZone,
+    hour: "numeric",
+    hour12: true,
+  }).toLowerCase(); // Hora en formato 12 horas
+
+  console.log({ day, month, hour, localTimeZone });
+
 
   let image = require("@/assets/images/Home/Anaquelgreen.png");
-  const date = new Date(Fecha);
-
-  const day = date.getDate();
-  const month = date
-    .toLocaleString(localTime, { timeZone, month: "short" })
-    .toUpperCase();
-
-  const hour = date
-    .toLocaleTimeString(localTime, { timeZone, hour: "numeric", hour12: true })
-    .toLowerCase(); // Hora en formato 12 horas
+ 
 
   if (PInvenadro >= 90) {
     image = require("@/assets/images/Home/Anaquelgreen.png");
