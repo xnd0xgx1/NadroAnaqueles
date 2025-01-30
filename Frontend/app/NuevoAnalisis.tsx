@@ -258,13 +258,13 @@ export default function NuevoAnalisis() {
             return option;
           }
           // Regular option
-          return option.negocio;
+          return option.codigoMostrador + "-" + option.negocio;
         }}
         renderOption={(props, option) => {
           const { key, ...optionProps } = props;
           return (
             <li key={Math.random()} {...optionProps}>
-              {option.codigoMostrador} - {option.negocio}
+              {option.codigoMostrador} - {option.razonSocial} - {option.negocio}
             </li>
           );
         }}
@@ -284,7 +284,8 @@ export default function NuevoAnalisis() {
       <TouchableOpacity
         style={styles.button}
         onPress={async () => {
-          if (anaquel != "") {
+          if (anaquel != "" && anaquel != undefined) {
+            console.warn("Mostrador no: ", anaquel);
             await save("mostrador", anaquel);
             router.push("/SubirFotos");
           } else {

@@ -557,7 +557,7 @@ def search_business_name(req: func.HttpRequest) -> func.HttpResponse:
         conn = pyodbc.connect(f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}")
         cursor = conn.cursor()
 
-        query = f"SELECT * FROM [dbo].[dataset_ventas_agrupado] WHERE Negocio LIKE '%{query_search}%';"
+        query = f"SELECT * FROM [dbo].[dataset_ventas_agrupado] WHERE Negocio LIKE '%{query_search}%' or Codigo_Mostrador LIKE '%{query_search}%' ;"
 
         logging.warning(f"QUERY: {query}")
         cursor.execute(query)
