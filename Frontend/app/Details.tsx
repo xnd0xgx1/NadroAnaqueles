@@ -152,7 +152,9 @@ const ProductItem = ({
               Existencias
             </Text>
             <Text style={[styles.text, { color: "black" }]}>
-              {existencia == "NaN" ? "No especificado" : existencia}
+              {existencia == "NaN" || existencia === "Desconocida"
+                ? "No especificado"
+                : existencia}
             </Text>
             <Text style={[styles.statPercentage, { color: "black" }]}>
               Valor óptimo
