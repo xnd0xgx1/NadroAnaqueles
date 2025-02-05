@@ -53,22 +53,24 @@ const HistoryItem = ({
   const date = new Date(Fecha + " GMT-5"); // Asegura que se interpreta como GMT-5
 
   const day = date.getUTCDate();
-  const month = date.toLocaleString(localTime, {
-    timeZone: localTimeZone,
-    month: "short",
-  }).toUpperCase();
+  const month = date
+    .toLocaleString(localTime, {
+      timeZone: localTimeZone,
+      month: "short",
+    })
+    .toUpperCase();
 
-  const hour = date.toLocaleTimeString(localTime, {
-    timeZone: localTimeZone,
-    hour: "numeric",
-    hour12: true,
-  }).toLowerCase(); // Hora en formato 12 horas
+  const hour = date
+    .toLocaleTimeString(localTime, {
+      timeZone: localTimeZone,
+      hour: "numeric",
+      hour12: true,
+    })
+    .toLowerCase(); // Hora en formato 12 horas
 
   console.log({ day, month, hour, localTimeZone });
 
-
   let image = require("@/assets/images/Home/Anaquelgreen.png");
- 
 
   if (PInvenadro >= 90) {
     image = require("@/assets/images/Home/Anaquelgreen.png");

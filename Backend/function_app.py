@@ -1,12 +1,13 @@
-import azure.functions as func
-import logging
-import requests
-import tempfile
 import os
-from azure.storage.blob import BlobServiceClient,generate_blob_sas,BlobSasPermissions
 import json
-from datetime import datetime, timedelta
+import requests
+import logging
+import tempfile
 import pyodbc
+import azure.functions as func
+from azure.storage.blob import BlobServiceClient,generate_blob_sas,BlobSasPermissions
+from src.services.nadro_servicio_general import hidratar_existencia
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -250,11 +251,6 @@ def Historial(req: func.HttpRequest) -> func.HttpResponse:
     pinvenadro = req.params.get('pinvenadro')
     user = req.params.get('user') 
 
-
-    
-
-    
-    
     try:
         conn = pyodbc.connect(f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}")
         cursor = conn.cursor()
@@ -488,7 +484,6 @@ def DataObjeto(req: func.HttpRequest) -> func.HttpResponse:
         logging.warning(params)
         cursor.execute(query, params)
         rows = cursor.fetchall()
-        
         # Procesa los resultados en formato JSON
         results = []
         for row in rows:
@@ -499,10 +494,10 @@ def DataObjeto(req: func.HttpRequest) -> func.HttpResponse:
                 "Nombre_Mostrador": row.Nombre_Mostrador,
                 "PInvenadro": row.PInvenadro,
                 "Direccion": row.Direccion,
-                "Resultados": row.Resultados,
+                "Resultados": hidratar_existencia(row.Resultados),
                 "Status": row.Status
             })
-        
+
         # Cierra la conexión
         cursor.close()
         conn.close()

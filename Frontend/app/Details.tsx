@@ -25,6 +25,7 @@ const ProductItem = ({
   percentage,
   nombre_inferido,
   flag_invenadro,
+  existencia,
 }: {
   nombre_oficial: any;
   valor_optimo: any;
@@ -37,9 +38,9 @@ const ProductItem = ({
   nombre_inferido: any;
   optimo_invenadro: any;
   flag_invenadro: any;
+  existencia: string;
 }) => {
   let image = require("@/assets/images/Home/Anaquelgreen.png");
-
   let color = "red";
 
   if (flag_invenadro == "NO") {
@@ -151,22 +152,26 @@ const ProductItem = ({
               Existencias
             </Text>
             <Text style={[styles.text, { color: "black" }]}>
-              {cantidad_actual_img == "NaN"
-                ? "No especificado"
-                : cantidad_actual_img}
+              {existencia == "NaN" ? "No especificado" : existencia}
             </Text>
             <Text style={[styles.statPercentage, { color: "black" }]}>
               Valor óptimo
             </Text>
-            <Text style={[styles.text, { color: "black" }]}>
-              {valor_optimo == "NaN" ? "No especificado" : valor_optimo} mxn
-            </Text>
+            {valor_optimo.length &&
+              valor_optimo.map((item: number | string, index: number) => (
+                <Text key={index} style={[styles.text, { color: "black" }]}>
+                  {item == "NaN" ? "No especificado" : item} mxn
+                </Text>
+              ))}
             <Text style={[styles.statPercentage, { color: "black" }]}>
               Cantidad óptima
             </Text>
-            <Text style={[styles.text, { color: "black" }]}>
-              {optimo_invenadro == "NaN" ? "No especificado" : optimo_invenadro}
-            </Text>
+            {optimo_invenadro.length &&
+              optimo_invenadro.map((item: number | string, index: number) => (
+                <Text key={index} style={[styles.text, { color: "black" }]}>
+                  {item == "NaN" ? "No especificado" : item}
+                </Text>
+              ))}
           </View>
         )}
       </View>
