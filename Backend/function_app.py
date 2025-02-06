@@ -172,6 +172,8 @@ def Model(req: func.HttpRequest) -> func.HttpResponse:
         # Comprobar el estado de la respuesta
         if response.status_code == 202:
             return func.HttpResponse(response.text, status_code=200)
+        if response.status_code == 200:
+            return func.HttpResponse(response.text, status_code=400)
         else:
             return func.HttpResponse("Error al consultar el modelo", status_code=500)
     

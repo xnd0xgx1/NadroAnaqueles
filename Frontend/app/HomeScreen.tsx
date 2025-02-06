@@ -52,13 +52,11 @@ const HistoryItem = ({
 
   const date = new Date(Fecha + " GMT-5"); // Asegura que se interpreta como GMT-5
 
-  const day = date.getUTCDate();
-  const month = date
-    .toLocaleString(localTime, {
-      timeZone: localTimeZone,
-      month: "short",
-    })
-    .toUpperCase();
+  const day = date.getDate();
+  const month = date.toLocaleString(localTime, {
+    timeZone: localTimeZone,
+    month: "short",
+  }).toUpperCase();
 
   const hour = date
     .toLocaleTimeString(localTime, {

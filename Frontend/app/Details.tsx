@@ -379,6 +379,7 @@ export default function Resultados() {
     console.log("NEW IMAGES2: ", newimages2);
     setimages2(newimages2);
     setimages(newimages);
+    console.warn("Resultado Parsed: ",resultadosparsed);
     setresultado(resultadosparsed);
     const productosUnicos: any[] = [];
     const nombresUnicos = new Set();
@@ -455,7 +456,7 @@ export default function Resultados() {
 
   return (
     <ScrollView style={styles.container}>
-      {resultado && !loading && (
+      {(resultado && !loading)&& (
         <>
           <View style={styles.navbar}>
             <Text style={styles.navbarText}>Resultado</Text>
@@ -478,6 +479,34 @@ export default function Resultados() {
                 </Text>
               </TouchableOpacity>
             </Grid2>
+          
+          {(resultado.codigo_estado != 200 && resultado.codigo_estado != 400 ) ?
+          <>
+
+          <Grid2 size={10}>
+              <View style={styles.statBox}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text style={[styles.statTitle, { marginRight: 10,color:"red" }]}>
+                    {"Error : "}
+                  </Text>
+                  <Text style={[styles.statTitle, { fontWeight: "700" }]}>
+                    {resultado.resultado}{" "}
+                  </Text>
+              
+                </View>
+              </View>
+            </Grid2>
+          </>
+
+          :
+          <>
             <Grid2 size={Status == "Listo" ? 8 : 10}>
               <View style={styles.statBox}>
                 <View
@@ -503,33 +532,13 @@ export default function Resultados() {
                 </View>
               </View>
             </Grid2>
-            {Status == "Listo" && (
-              <Grid2
-                size={2}
-                alignItems={"flex-end"}
-                flexDirection={"row"}
-                alignContent={"center"}
-              >
-                <View style={styles.statBox}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      width: "100%",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <TouchableOpacity
-                      style={{ alignItems: "flex-end" }}
-                      onPress={() => handleDelete()}
-                    >
-                      <DeleteIcon sx={{ color: "red" }} />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </Grid2>
-            )}
-            <Grid2 size={10}>
+          {Status == "Listo" && (
+            <Grid2
+              size={2}
+              alignItems={"flex-end"}
+              flexDirection={"row"}
+              alignContent={"center"}
+            >
               <View style={styles.statBox}>
                 <View
                   style={{
@@ -539,23 +548,53 @@ export default function Resultados() {
                     justifyContent: "center",
                   }}
                 >
-                  <Text style={[styles.statTitle, { marginRight: 10 }]}>
-                    {"Fotografías cargadas: "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.statTitle,
-                      { color: "rgba(49, 86, 27, 1)", fontWeight: "700" },
-                    ]}
+                  <TouchableOpacity
+                    style={{ alignItems: "flex-end" }}
+                    onPress={() => handleDelete()}
                   >
-                    {images.length}
-                  </Text>
+                    <DeleteIcon sx={{ color: "red" }} />
+                  </TouchableOpacity>
                 </View>
               </View>
             </Grid2>
+          )}
+          <Grid2 size={10}>
+            <View style={styles.statBox}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "100%",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={[styles.statTitle, { marginRight: 10 }]}>
+                  {"Fotografías cargadas: "}
+                </Text>
+                <Text
+                  style={[
+                    styles.statTitle,
+                    { color: "rgba(49, 86, 27, 1)", fontWeight: "700" },
+                  ]}
+                >
+                  {images.length}
+                </Text>
+              </View>
+            </View>
+          </Grid2>
+          </>
+          }
+            
+          
           </Grid2>
 
-          <Text style={styles.mdtext}>Resultados</Text>
+
+
+          {resultado.codigo_estado == 200 &&
+        
+
+          <>
+           <Text style={styles.mdtext}>Resultados</Text>
           <Grid2 container columns={10} spacing={1} marginBottom={2}>
             <Grid2 size={5}>
               <View style={styles.statBox}>
@@ -660,15 +699,7 @@ export default function Resultados() {
             <ImageCarousel images={images2} />
           )}
 
-          {/* 
-      <FormControl variant="standard">
-            <InputLabel>Producto</InputLabel>
-            <Select label="Producto" defaultValue="Todos" sx={{width:"20vw"}}>
-              <MenuItem value="Todos">Todos</MenuItem>
-              <MenuItem value="Opción 1">Opción 1</MenuItem>
-              <MenuItem value="Opción 2">Opción 2</MenuItem>
-            </Select>
-          </FormControl> */}
+      
 
           <Text style={[styles.text, { marginVertical: 20 }]}>Productos</Text>
           {selectedtab == 0 ? (
@@ -690,8 +721,14 @@ export default function Resultados() {
               style={{ flex: 1 }}
             />
           )}
+          
+          </>
+
+          }
+         
         </>
       )}
+      
 
       {loading && (
         <View style={styles.loadingOverlay}>

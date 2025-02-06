@@ -9,6 +9,7 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import { Box, Grid2, Typography } from "@mui/material"; // Asegúrate de que este import sea correcto
 import { Link, useRouter } from "expo-router";
@@ -22,6 +23,21 @@ export default function Loading() {
   const [anaquel, setanaquel] = useState("");
   const [progress, setProgress] = useState(0);
   const router = useRouter();
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+
+  const handleContinue = () => {
+    setErrorMessage(null);
+    getprocessed();
+
+    // Aquí puedes agregar lógica para continuar el flujo
+  };
+
+  const handleCancel = () => {
+    setErrorMessage(null);
+    router.push("/HomeScreen");
+  };
 
   const historyData = [
     {
@@ -142,17 +158,43 @@ export default function Loading() {
       headers: myHeaders,
       body: raw,
     };
-
     fetch(
       "https://func-anaqueles-inteligentes-back.azurewebsites.net/" +
         "api/Model",
       requestOptions
     )
-      .then((response) => router.push("/HomeScreen"))
-      .catch((error) => {
-        alert("Error al procesar la información");
-        router.push("/SubirFotos");
-      });
+    .then((response) => {
+      
+      console.log("Response ",response);
+      if (response.status === 400) {
+        response.text().then((text) => {
+          try {
+            const jsonResponse = JSON.parse(text);
+            console.log("Parsed JSON: ", jsonResponse);
+            
+            // Verificar un campo específico, por ejemplo, "message"
+            if (jsonResponse.resultado) {
+              console.log("Error message:", jsonResponse.resultado);
+              setErrorMessage( jsonResponse.resultado);
+            }
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+          }
+        });
+      }else{
+        if(response.status == 200){
+          router.push("/HomeScreen")
+        }else{
+          console.log("Error on request: ");
+          alert("Error al intentar procesar la información ");
+        }
+      }
+    
+    })
+    .catch((error) => {
+      alert("Error al intentar procesar la información, " + error);
+      router.push("/SubirFotos");
+    });
   };
 
   useEffect(() => {
@@ -222,21 +264,22 @@ export default function Loading() {
         </Box>
       </Box>
 
-      <View style={styles.fixedButtons}>
-        <Grid2 container columns={2} spacing={2}>
-          <Grid2 size={2}>
-            <Link href={"/HomeScreen"} style={{ width: "100%" }}>
-              <TouchableOpacity style={{ width: "100%", alignItems: "center" }}>
-                <Text
-                  style={{ color: "green", textDecorationLine: "underline" }}
-                >
-                  Cancelar
-                </Text>
+      {/* Modal de Error */}
+      <Modal transparent visible={!!errorMessage} animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.errorText}>Error: {errorMessage}</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={handleContinue} style={styles.button}>
+                <Text style={styles.buttonText}>Reintentar</Text>
               </TouchableOpacity>
-            </Link>
-          </Grid2>
-        </Grid2>
-      </View>
+              <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
+                <Text style={styles.cancelButtonText}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -306,4 +349,21 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  errorText: { fontSize: 18, color: "red", marginBottom: 20, textAlign: "center" },
+  buttonContainer: { flexDirection: "column", justifyContent: "space-between", width: "100%" },
+  cancelButton: { padding: 10, backgroundColor: "gray", borderRadius: 5, flex: 1, margin: 5, alignItems: "center" },
+  cancelButtonText: { color: "white", fontSize: 16 },
 });
