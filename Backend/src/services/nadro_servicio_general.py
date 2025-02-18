@@ -9,7 +9,10 @@ def preparar_filtros_por_codigo_producto(data):
         for item in img["detalle_materiales"]
         if item["codigo_producto"] != "nan"
     ]
-    filtro_de_productos = " or ".join(f"APIMAT eq '{codigo}'" for codigo in sorted(set(codigo_productos)))
+
+    union_codigo_productos = [item for sublist in codigo_productos for item in sublist if item != 0]
+    
+    filtro_de_productos = " or ".join(f"APIMAT eq '{codigo}'" for codigo in sorted(set(union_codigo_productos)))
     resultado = f"APICEN eq '3030' and ({filtro_de_productos})"
     return resultado
 
@@ -56,7 +59,10 @@ def hidratar_existencia(data):
     
     for img in data["output_imagenes"]:
         for item in img["detalle_materiales"]:
-            codigo_original = item["codigo_producto"].strip()
-            codigo_completo = codigo_original.zfill(18)
-            item["existencia"] = existencias_por_producto_dict.get(codigo_completo, "Desconocida")
+            existencias = []
+            for codigo_producto in item["codigo_producto"]:
+                codigo_original = codigo_producto
+                codigo_completo = codigo_original.zfill(18) if codigo_original != 0 else 0
+                existencias.append(existencias_por_producto_dict.get(codigo_completo, "Desconocido"))
+            item["existencia"] = existencias
     return json.dumps(data)

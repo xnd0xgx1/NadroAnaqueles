@@ -161,26 +161,29 @@ def Model(req: func.HttpRequest) -> func.HttpResponse:
             "user_id":user_id
             })
 
-        # Realizar la solicitud POST a la API externa
-        response = requests.post(
-            'https://func-anaqueles-inteligentes.azurewebsites.net/api/Orchestrator?code=FgsuhSOWHeZR3UFY7RdjeQ9_kUOS_ehbmDIqahZ8nJgZAzFuIbzMmw%3D%3D',
-            headers=headers,
-            data=body
-        )
+        try:
+            # Usar timeout para desconectar rápidamente
+            # Realizar la solicitud POST a la API externa
+            response = requests.post(
+                'https://func-anaqueles-inteligentes.azurewebsites.net/api/Orchestrator?code=FgsuhSOWHeZR3UFY7RdjeQ9_kUOS_ehbmDIqahZ8nJgZAzFuIbzMmw%3D%3D',
+                headers=headers,
+                data=body,
+                timeout=4
+            )
+        except requests.exceptions.ReadTimeout:
+            logging.info("La solicitud fue enviada y se desconectó.")
+            return func.HttpResponse("La solicitud fue enviada y se desconectó.", status_code=200)
 
         logging.warning(response)
         # Comprobar el estado de la respuesta
-        if response.status_code == 202:
-            return func.HttpResponse(response.text, status_code=200)
         if response.status_code == 200:
-            return func.HttpResponse(response.text, status_code=400)
+            return func.HttpResponse(response.text, status_code=200)
         else:
             return func.HttpResponse("Error al consultar el modelo", status_code=500)
     
     except Exception as e:
         logging.error(f"Error en la autenticación: {e}")
         return func.HttpResponse("Error en el servidor.", status_code=500)
-    
 @app.route(route="Status")
 def Status(req: func.HttpRequest) -> func.HttpResponse:
     try:

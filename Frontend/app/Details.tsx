@@ -38,7 +38,7 @@ const ProductItem = ({
   nombre_inferido: any;
   optimo_invenadro: any;
   flag_invenadro: any;
-  existencia: string;
+  existencia: string[];
 }) => {
   let image = require("@/assets/images/Home/Anaquelgreen.png");
   let color = "red";
@@ -128,52 +128,164 @@ const ProductItem = ({
               justifyContent: "center",
             }}
           >
-            <Text style={[styles.statPercentage, { color: "black" }]}>
-              Producto
-            </Text>
-            {nombre_oficial.length &&
-              nombre_oficial.map((item: string, index: number) => (
-                <Text key={index} style={[styles.text, { color: "black" }]}>
-                  {item == "NaN" ? "No especificado" : item}
-                </Text>
-              ))}
+            <Grid2 container columns={12} rowSpacing={0} width={"100%"}>
+              <Grid2 size={6}>
+                <View
+                  style={{ flexDirection: "column", alignItems: "flex-start" }}
+                >
+                  <Text
+                    style={[
+                      styles.statPercentage,
+                      { color: "black" },
+                      { fontSize: 14 },
+                      { fontWeight: "600" },
+                    ]}
+                  >
+                    Producto
+                  </Text>
 
-            <Text style={[styles.statPercentage, { color: "black" }]}>
-              Porcentaje de coincidencia
-            </Text>
-            {similitud.length &&
-              similitud.map((item: number | string, index: number) => (
-                <Text key={index} style={[styles.text, { color: "black" }]}>
-                  {item == "NaN" ? "No especificado" : Number(item).toFixed(2)}{" "}
-                  %
-                </Text>
-              ))}
-            <Text style={[styles.statPercentage, { color: "black" }]}>
-              Existencias
-            </Text>
-            <Text style={[styles.text, { color: "black" }]}>
-              {existencia == "NaN" || existencia === "Desconocida"
-                ? "No especificado"
-                : existencia}
-            </Text>
-            <Text style={[styles.statPercentage, { color: "black" }]}>
-              Valor óptimo
-            </Text>
-            {valor_optimo.length &&
-              valor_optimo.map((item: number | string, index: number) => (
-                <Text key={index} style={[styles.text, { color: "black" }]}>
-                  {item == "NaN" ? "No especificado" : item} mxn
-                </Text>
-              ))}
-            <Text style={[styles.statPercentage, { color: "black" }]}>
-              Cantidad óptima
-            </Text>
-            {optimo_invenadro.length &&
-              optimo_invenadro.map((item: number | string, index: number) => (
-                <Text key={index} style={[styles.text, { color: "black" }]}>
-                  {item == "NaN" ? "No especificado" : item}
-                </Text>
-              ))}
+                  {nombre_oficial.length &&
+                    nombre_oficial.map((item: string, index: number) => (
+                      <Text
+                        key={index}
+                        style={[
+                          styles.text,
+                          { color: "black" },
+                          { fontSize: 14 },
+                        ]}
+                      >
+                        {item == "NaN" ? "No especificado" : item}
+                      </Text>
+                    ))}
+                </View>
+              </Grid2>
+
+              <Grid2 size={6}>
+                <View style={{ flexDirection: "column", alignItems: "center" }}>
+                  <Text
+                    style={[
+                      styles.statPercentage,
+                      { color: "black" },
+                      { fontSize: 14 },
+                      { fontWeight: "600" },
+                    ]}
+                  >
+                    Porcentaje de coincidencia
+                  </Text>
+                  {similitud.length &&
+                    similitud.map((item: number | string, index: number) => (
+                      <Text
+                        key={index}
+                        style={[
+                          styles.text,
+                          { color: "black" },
+                          { fontSize: 14 },
+                        ]}
+                      >
+                        {item == "NaN"
+                          ? "No especificado"
+                          : Number(item).toFixed(2)}{" "}
+                        %
+                      </Text>
+                    ))}
+                </View>
+              </Grid2>
+            </Grid2>
+
+            <Grid2 container columns={12} rowSpacing={0} width={"100%"}>
+              <Grid2 size={4}>
+                <View
+                  style={{ flexDirection: "column", alignItems: "flex-start" }}
+                >
+                  <Text
+                    style={[
+                      styles.statPercentage,
+                      { color: "black" },
+                      { fontWeight: "600" },
+                      { fontSize: 14 },
+                    ]}
+                  >
+                    Existencias
+                  </Text>
+
+                  {existencia.length &&
+                    existencia.map((item: number | string, index: number) => (
+                      <Text
+                        key={index}
+                        style={[
+                          styles.text,
+                          { color: "black" },
+                          { fontSize: 14 },
+                        ]}
+                      >
+                        {item ?? "-"}
+                      </Text>
+                    ))}
+                </View>
+              </Grid2>
+
+              <Grid2 size={4}>
+                <View style={{ flexDirection: "column", alignItems: "center" }}>
+                  <Text
+                    style={[
+                      styles.statPercentage,
+                      { color: "black" },
+                      { fontSize: 14 },
+                      { fontWeight: "600" },
+                    ]}
+                  >
+                    Valor óptimo
+                  </Text>
+                  {valor_optimo.length &&
+                    valor_optimo.map((item: number | string, index: number) => (
+                      <Text
+                        key={index}
+                        style={[
+                          styles.text,
+                          { color: "black" },
+                          { fontSize: 14 },
+                        ]}
+                      >
+                        {item == "NaN" ? "No especificado" : item} mxn
+                      </Text>
+                    ))}
+                </View>
+              </Grid2>
+              <Grid2 size={4}>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.statPercentage,
+                      { color: "black" },
+                      { fontSize: 14 },
+                      { fontWeight: "600" },
+                    ]}
+                  >
+                    Cantidad óptima
+                  </Text>
+                  {optimo_invenadro.length &&
+                    optimo_invenadro.map(
+                      (item: number | string, index: number) => (
+                        <Text
+                          key={index}
+                          style={[
+                            styles.text,
+                            { color: "black" },
+                            { fontSize: 14 },
+                          ]}
+                        >
+                          {item == "NaN" ? "No especificado" : item}
+                        </Text>
+                      )
+                    )}
+                </View>
+              </Grid2>
+            </Grid2>
           </View>
         )}
       </View>
@@ -379,7 +491,7 @@ export default function Resultados() {
     console.log("NEW IMAGES2: ", newimages2);
     setimages2(newimages2);
     setimages(newimages);
-    console.warn("Resultado Parsed: ",resultadosparsed);
+    console.warn("Resultado Parsed: ", resultadosparsed);
     setresultado(resultadosparsed);
     const productosUnicos: any[] = [];
     const nombresUnicos = new Set();
@@ -456,7 +568,7 @@ export default function Resultados() {
 
   return (
     <ScrollView style={styles.container}>
-      {(resultado && !loading)&& (
+      {resultado && !loading && (
         <>
           <View style={styles.navbar}>
             <Text style={styles.navbarText}>Resultado</Text>
@@ -479,256 +591,261 @@ export default function Resultados() {
                 </Text>
               </TouchableOpacity>
             </Grid2>
-          
-          {(resultado.codigo_estado != 200 && resultado.codigo_estado != 400 ) ?
-          <>
 
-          <Grid2 size={10}>
-              <View style={styles.statBox}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    width: "100%",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text style={[styles.statTitle, { marginRight: 10,color:"red" }]}>
-                    {"Error : "}
-                  </Text>
-                  <Text style={[styles.statTitle, { fontWeight: "700" }]}>
-                    {resultado.resultado}{" "}
-                  </Text>
-              
-                </View>
-              </View>
-            </Grid2>
-          </>
-
-          :
-          <>
-            <Grid2 size={Status == "Listo" ? 8 : 10}>
-              <View style={styles.statBox}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    width: "100%",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text style={[styles.statTitle, { marginRight: 10 }]}>
-                    {"Estatus: "}
-                  </Text>
-                  <Text style={[styles.statTitle, { fontWeight: "700" }]}>
-                    {Status}{" "}
-                  </Text>
-                  <TouchableOpacity
-                    style={{ alignItems: "flex-start" }}
-                    onPress={() => getdata()}
+            {resultado.codigo_estado != 200 &&
+            resultado.codigo_estado != 400 ? (
+              <>
+                <Grid2 size={10}>
+                  <View style={styles.statBox}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: "100%",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={[
+                          styles.statTitle,
+                          { marginRight: 10, color: "red" },
+                        ]}
+                      >
+                        {"Error : "}
+                      </Text>
+                      <Text style={[styles.statTitle, { fontWeight: "700" }]}>
+                        {resultado.resultado}{" "}
+                      </Text>
+                    </View>
+                  </View>
+                </Grid2>
+              </>
+            ) : (
+              <>
+                <Grid2 size={Status == "Listo" ? 8 : 10}>
+                  <View style={styles.statBox}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: "100%",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text style={[styles.statTitle, { marginRight: 10 }]}>
+                        {"Estatus: "}
+                      </Text>
+                      <Text style={[styles.statTitle, { fontWeight: "700" }]}>
+                        {Status}{" "}
+                      </Text>
+                      <TouchableOpacity
+                        style={{ alignItems: "flex-start" }}
+                        onPress={() => getdata()}
+                      >
+                        <CachedIcon />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Grid2>
+                {Status == "Listo" && (
+                  <Grid2
+                    size={2}
+                    alignItems={"flex-end"}
+                    flexDirection={"row"}
+                    alignContent={"center"}
                   >
-                    <CachedIcon />
+                    <View style={styles.statBox}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          width: "100%",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <TouchableOpacity
+                          style={{ alignItems: "flex-end" }}
+                          onPress={() => handleDelete()}
+                        >
+                          <DeleteIcon sx={{ color: "red" }} />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Grid2>
+                )}
+                <Grid2 size={10}>
+                  <View style={styles.statBox}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: "100%",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text style={[styles.statTitle, { marginRight: 10 }]}>
+                        {"Fotografías cargadas: "}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.statTitle,
+                          { color: "rgba(49, 86, 27, 1)", fontWeight: "700" },
+                        ]}
+                      >
+                        {images.length}
+                      </Text>
+                    </View>
+                  </View>
+                </Grid2>
+              </>
+            )}
+          </Grid2>
+
+          {resultado.codigo_estado == 200 && (
+            <>
+              <Text style={styles.mdtext}>Resultados</Text>
+              <Grid2 container columns={10} spacing={1} marginBottom={2}>
+                <Grid2 size={5}>
+                  <View style={styles.statBox}>
+                    <Text style={styles.statTitle}>
+                      {"Invenadro vs Detectados"}
+                    </Text>
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      <Text style={[styles.statPercentage, { color: "black" }]}>
+                        {resultado.productos_detectados_en_invenadro}
+                      </Text>
+                      <Text style={[styles.statPercentage, { color: "black" }]}>
+                        {" "}
+                        /{" "}
+                      </Text>
+                      <Text style={[styles.statPercentage, { color: "black" }]}>
+                        {resultado.total_productos_inferidos ?? 0}
+                      </Text>
+                    </View>
+                  </View>
+                </Grid2>
+                <Grid2 size={5}>
+                  <View style={styles.statBox}>
+                    <Text style={styles.statTitle}>
+                      {"% Completitud anaquel"}
+                    </Text>
+                    <Text style={[styles.statPercentage]}>
+                      {(resultado.completitud_anaqueles ?? 0).toFixed(2)}%
+                    </Text>
+                  </View>
+                </Grid2>
+                <Grid2 size={5}>
+                  <View style={styles.statBox}>
+                    <Text style={styles.statTitle}>
+                      {"Monto ventas totales mostrador"}
+                    </Text>
+                    <Text style={[styles.statPercentage]}>
+                      {(resultado.monto_ventas_totales_mostrador ?? 0).toFixed(
+                        2
+                      )}{" "}
+                      mxn
+                    </Text>
+                  </View>
+                </Grid2>
+                <Grid2 size={5}>
+                  <View style={styles.statBox}>
+                    <Text style={styles.statTitle}>
+                      {"Número de ventas totales mostrador"}
+                    </Text>
+                    <Text style={[styles.statPercentage]}>
+                      {(resultado.numero_ventas_totales_mostrador ?? 0).toFixed(
+                        0
+                      )}
+                    </Text>
+                  </View>
+                </Grid2>
+                <Grid2 size={10}>
+                  <View style={styles.statBox}>
+                    <Text style={styles.statTitle}>{"Nombre mostrador"}</Text>
+                    <Text style={[styles.statPercentage, { fontSize: 14 }]}>
+                      {resultado.nombre_mostrador}
+                    </Text>
+                  </View>
+                </Grid2>
+
+                <Grid2 size={5}>
+                  <TouchableOpacity onPress={() => setselectedtab(0)}>
+                    <View
+                      style={
+                        selectedtab == 0
+                          ? styles.statBox
+                          : styles.statBoxunselected
+                      }
+                    >
+                      <Text
+                        style={
+                          selectedtab == 0
+                            ? styles.TabTitleselected
+                            : styles.TabTitle
+                        }
+                      >
+                        {"Lectura"}
+                      </Text>
+                    </View>
                   </TouchableOpacity>
-                </View>
-              </View>
-            </Grid2>
-          {Status == "Listo" && (
-            <Grid2
-              size={2}
-              alignItems={"flex-end"}
-              flexDirection={"row"}
-              alignContent={"center"}
-            >
-              <View style={styles.statBox}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    width: "100%",
-                    justifyContent: "center",
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{ alignItems: "flex-end" }}
-                    onPress={() => handleDelete()}
-                  >
-                    <DeleteIcon sx={{ color: "red" }} />
+                </Grid2>
+                <Grid2 size={5}>
+                  <TouchableOpacity onPress={() => setselectedtab(1)}>
+                    <View
+                      style={
+                        selectedtab == 1
+                          ? styles.statBox
+                          : styles.statBoxunselected
+                      }
+                    >
+                      <Text
+                        style={
+                          selectedtab == 1
+                            ? styles.TabTitleselected
+                            : styles.TabTitle
+                        }
+                      >
+                        {"Recomendación"}
+                      </Text>
+                    </View>
                   </TouchableOpacity>
-                </View>
-              </View>
-            </Grid2>
-          )}
-          <Grid2 size={10}>
-            <View style={styles.statBox}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={[styles.statTitle, { marginRight: 10 }]}>
-                  {"Fotografías cargadas: "}
-                </Text>
-                <Text
-                  style={[
-                    styles.statTitle,
-                    { color: "rgba(49, 86, 27, 1)", fontWeight: "700" },
-                  ]}
-                >
-                  {images.length}
-                </Text>
-              </View>
-            </View>
-          </Grid2>
-          </>
-          }
-            
-          
-          </Grid2>
+                </Grid2>
+              </Grid2>
 
-
-
-          {resultado.codigo_estado == 200 &&
-        
-
-          <>
-           <Text style={styles.mdtext}>Resultados</Text>
-          <Grid2 container columns={10} spacing={1} marginBottom={2}>
-            <Grid2 size={5}>
-              <View style={styles.statBox}>
-                <Text style={styles.statTitle}>
-                  {"Invenadro vs Detectados"}
-                </Text>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={[styles.statPercentage, { color: "black" }]}>
-                    {resultado.productos_detectados_en_invenadro}
-                  </Text>
-                  <Text style={[styles.statPercentage, { color: "black" }]}>
-                    {" "}
-                    /{" "}
-                  </Text>
-                  <Text style={[styles.statPercentage, { color: "black" }]}>
-                    {resultado.total_productos_inferidos ?? 0}
-                  </Text>
-                </View>
-              </View>
-            </Grid2>
-            <Grid2 size={5}>
-              <View style={styles.statBox}>
-                <Text style={styles.statTitle}>{"% Completitud anaquel"}</Text>
-                <Text style={[styles.statPercentage]}>
-                  {(resultado.completitud_anaqueles ?? 0).toFixed(2)}%
-                </Text>
-              </View>
-            </Grid2>
-            <Grid2 size={5}>
-              <View style={styles.statBox}>
-                <Text style={styles.statTitle}>
-                  {"Monto ventas totales mostrador"}
-                </Text>
-                <Text style={[styles.statPercentage]}>
-                  {(resultado.monto_ventas_totales_mostrador ?? 0).toFixed(2)}{" "}
-                  mxn
-                </Text>
-              </View>
-            </Grid2>
-            <Grid2 size={5}>
-              <View style={styles.statBox}>
-                <Text style={styles.statTitle}>
-                  {"Número de ventas totales mostrador"}
-                </Text>
-                <Text style={[styles.statPercentage]}>
-                  {(resultado.numero_ventas_totales_mostrador ?? 0).toFixed(0)}
-                </Text>
-              </View>
-            </Grid2>
-            <Grid2 size={10}>
-              <View style={styles.statBox}>
-                <Text style={styles.statTitle}>{"Nombre mostrador"}</Text>
-                <Text style={[styles.statPercentage, { fontSize: 14 }]}>
-                  {resultado.nombre_mostrador}
-                </Text>
-              </View>
-            </Grid2>
-
-            <Grid2 size={5}>
-              <TouchableOpacity onPress={() => setselectedtab(0)}>
-                <View
-                  style={
-                    selectedtab == 0 ? styles.statBox : styles.statBoxunselected
-                  }
-                >
-                  <Text
-                    style={
-                      selectedtab == 0
-                        ? styles.TabTitleselected
-                        : styles.TabTitle
-                    }
-                  >
-                    {"Lectura"}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </Grid2>
-            <Grid2 size={5}>
-              <TouchableOpacity onPress={() => setselectedtab(1)}>
-                <View
-                  style={
-                    selectedtab == 1 ? styles.statBox : styles.statBoxunselected
-                  }
-                >
-                  <Text
-                    style={
-                      selectedtab == 1
-                        ? styles.TabTitleselected
-                        : styles.TabTitle
-                    }
-                  >
-                    {"Recomendación"}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </Grid2>
-          </Grid2>
-
-          {selectedtab == 0 ? (
-            <ImageCarousel images={images} />
-          ) : (
-            <ImageCarousel images={images2} />
-          )}
-
-      
-
-          <Text style={[styles.text, { marginVertical: 20 }]}>Productos</Text>
-          {selectedtab == 0 ? (
-            <FlatList
-              data={productos}
-              renderItem={({ item }) => (
-                <ProductItem key={Math.random()} {...item} />
+              {selectedtab == 0 ? (
+                <ImageCarousel images={images} />
+              ) : (
+                <ImageCarousel images={images2} />
               )}
-              keyExtractor={(item) => item.id}
-              style={{ flex: 1 }}
-            />
-          ) : (
-            <FlatList
-              data={productos2}
-              renderItem={({ item }) => (
-                <Recomendacionitem key={Math.random()} {...item} />
-              )}
-              keyExtractor={(item) => item.id}
-              style={{ flex: 1 }}
-            />
-          )}
-          
-          </>
 
-          }
-         
+              <Text style={[styles.text, { marginVertical: 20 }]}>
+                Productos
+              </Text>
+              {selectedtab == 0 ? (
+                <FlatList
+                  data={productos}
+                  renderItem={({ item }) => (
+                    <ProductItem key={Math.random()} {...item} />
+                  )}
+                  keyExtractor={(item) => item.id}
+                  style={{ flex: 1 }}
+                />
+              ) : (
+                <FlatList
+                  data={productos2}
+                  renderItem={({ item }) => (
+                    <Recomendacionitem key={Math.random()} {...item} />
+                  )}
+                  keyExtractor={(item) => item.id}
+                  style={{ flex: 1 }}
+                />
+              )}
+            </>
+          )}
         </>
       )}
-      
 
       {loading && (
         <View style={styles.loadingOverlay}>
